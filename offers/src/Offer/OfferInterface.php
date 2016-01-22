@@ -8,6 +8,7 @@ interface OfferInterface
 {
     /**
      * @param BasketProduct[] $basketProductList
+     *
      * @return BasketProduct[]
      */
     public function applyOffer(array $basketProductList);

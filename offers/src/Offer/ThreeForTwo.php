@@ -32,15 +32,15 @@ class ThreeForTwo implements OfferInterface
 
     /**
      * @param BasketProduct[] $basketProductList
+     *
      * @return BasketProduct[]
      */
     public function applyOffer(array $basketProductList)
     {
         $totalProducts = array_sum(array_map(
-                function(BasketProduct $product) {
+                function (BasketProduct $product) {
                     return $product->getQuantity();
-                }
-                , $basketProductList
+                }, $basketProductList
             )
         );
 
@@ -67,6 +67,7 @@ class ThreeForTwo implements OfferInterface
         @usort($sortList, function ($a, $b) {
             return $a->getProduct()->getPrice() >= $b->getProduct()->getPrice() ? 1 : -1;
         });
+
         return $sortList;
     }
 
@@ -83,8 +84,8 @@ class ThreeForTwo implements OfferInterface
             if ($productCount >= self::PRODUCTS_REQUIRED_FOR_OFFER) {
                 continue;
             }
-            $basketProduct->setActiveOffer(new ThreeForTwo($this->getOfferId(), $this->getOfferName()));
-            $productCount++;
+            $basketProduct->setActiveOffer(new self($this->getOfferId(), $this->getOfferName()));
+            ++$productCount;
         }
 
         return $basketProductList;
@@ -92,6 +93,7 @@ class ThreeForTwo implements OfferInterface
 
     /**
      * @param BasketProduct[] $basketProductList
+     *
      * @return BasketProduct[]
      */
     private function splitAllProducts(array $basketProductList)
@@ -99,7 +101,7 @@ class ThreeForTwo implements OfferInterface
         $newProductList = [];
 
         foreach ($basketProductList as $basketProduct) {
-            for ($i = 0; $i < $basketProduct->getQuantity(); $i++) {
+            for ($i = 0; $i < $basketProduct->getQuantity(); ++$i) {
                 $newBasketProduct = new BasketProduct($basketProduct->getProduct(), 1);
                 $newBasketProduct->setDiscountedPrice($basketProduct->getDiscountedPrice());
                 $newBasketProduct->setActiveOffer($basketProduct->getActiveOffer());
@@ -108,18 +110,18 @@ class ThreeForTwo implements OfferInterface
             }
         }
 
-
         return $newProductList;
     }
 
     /**
      * @param BasketProduct[] $basketProductList
+     *
      * @return BasketProduct[]
      */
     private function mergeAllProducts(array $basketProductList)
     {
         /**
-         * @var BasketProduct[] $newProductList
+         * @var BasketProduct[]
          */
         $newProductList = [];
 
@@ -136,6 +138,7 @@ class ThreeForTwo implements OfferInterface
 
             $prevMergeKey = $mergeKey;
         }
+
         return array_values($newProductList);
     }
 
@@ -157,15 +160,17 @@ class ThreeForTwo implements OfferInterface
 
     /**
      * @param BasketProduct $basketProduct
+     *
      * @return string
      */
     private function buildMergeKey($basketProduct)
     {
-        $key = $basketProduct->getProduct()->getId() . '-';
+        $key = $basketProduct->getProduct()->getId().'-';
         $key .= $basketProduct->getUnitPrice();
         $key .= $basketProduct->getActiveOffer()
-            ? '-' . $basketProduct->getActiveOffer()->getOfferId()
+            ? '-'.$basketProduct->getActiveOffer()->getOfferId()
             : '-0';
+
         return $key;
     }
 }

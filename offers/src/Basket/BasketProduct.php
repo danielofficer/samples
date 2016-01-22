@@ -105,5 +105,4 @@ class BasketProduct
     {
         return $this->discountedPrice;
     }
-
 }

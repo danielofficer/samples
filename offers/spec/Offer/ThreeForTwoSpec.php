@@ -3,7 +3,6 @@
 namespace spec\Offer;
 
 use Basket\BasketProduct;
-use Basket\BasketProductSplitter;
 use PhpSpec\ObjectBehavior;
 use Product\Product;
 use Prophecy\Argument;
