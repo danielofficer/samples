@@ -35,7 +35,7 @@ class Product implements ProductInterface
      */
     public function getId()
     {
-        return $this->price;
+        return $this->id;
     }
 
     /**

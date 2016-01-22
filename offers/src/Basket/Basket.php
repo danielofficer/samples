@@ -14,6 +14,10 @@ class Basket
      * @var OfferInterface[]
      */
     private $offerList;
+    /**
+     * @var BasketProductSplitter
+     */
+    private $basketProductSplitter;
 
     public function __construct(array $productList = [], array $offerList = [])
     {
